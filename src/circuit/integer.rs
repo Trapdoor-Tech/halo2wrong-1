@@ -27,17 +27,15 @@ pub enum Range {
 
 #[derive(Clone, Debug)]
 pub struct IntegerConfig {
-    range_config: RangeConfig,
-    main_gate_config: MainGateConfig,
+    // TODO: is `pub` necessary?
+    pub range_config: RangeConfig,
+    pub main_gate_config: MainGateConfig,
 }
 
-impl IntegerConfig {
-    pub fn new(range_config: RangeConfig, main_gate_config: MainGateConfig) -> Self {
-        Self {
-            range_config,
-            main_gate_config,
-        }
-    }
+pub struct IntegerChip<Wrong: FieldExt, Native: FieldExt> {
+    config: IntegerConfig,
+    // TODO: is `pub` necessary?
+    pub rns: Rns<Wrong, Native>,
 }
 
 pub trait IntegerInstructions<N: FieldExt> {
@@ -387,7 +385,14 @@ impl<W: WrongExt, N: FieldExt> IntegerChip<W, N> {
         IntegerChip { config, rns }
     }
 
-    fn range_chip(&self) -> RangeChip<N> {
+    pub fn configure(_: &mut ConstraintSystem<N>, range_config: &RangeConfig, main_gate_config: &MainGateConfig) -> IntegerConfig {
+        IntegerConfig {
+            range_config: range_config.clone(),
+            main_gate_config: main_gate_config.clone(),
+        }
+    }
+
+    pub fn range_chip(&self) -> RangeChip<N> {
         let bit_len_lookup = self.rns.bit_len_limb / NUMBER_OF_LOOKUP_LIMBS;
         RangeChip::<N>::new(self.config.range_config.clone(), bit_len_lookup)
     }
