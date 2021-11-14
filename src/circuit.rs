@@ -6,6 +6,7 @@ use halo2arith::{compose, fe_to_big, halo2, Assigned, AssignedValue, UnassignedV
 use num_bigint::BigUint as big_uint;
 
 mod ecc;
+mod ecdsa;
 mod integer;
 
 pub(crate) use integer::IntegerInstructions;

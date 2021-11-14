@@ -40,19 +40,8 @@ impl IntegerConfig {
     }
 }
 
-pub struct IntegerChip<W: WrongExt, N: FieldExt> {
-    config: IntegerConfig,
-    pub rns: Rns<W, N>,
-}
-
-impl<W: WrongExt, N: FieldExt> IntegerChip<W, N> {
-    pub(crate) fn new_assigned_integer(&self, limbs: Vec<AssignedLimb<N>>, native_value: AssignedValue<N>) -> AssignedInteger<N> {
-        AssignedInteger::new(limbs, native_value, self.rns.bit_len_limb)
-    }
-}
-
-pub trait IntegerInstructions<W: WrongExt, N: FieldExt> {
-    fn assign_integer(&self, region: &mut Region<'_, N>, integer: UnassignedInteger<W, N>, offset: &mut usize) -> Result<AssignedInteger<N>, Error>;
+pub trait IntegerInstructions<N: FieldExt> {
+    fn assign_integer(&self, region: &mut Region<'_, N>, integer: Option<Integer<N>>, offset: &mut usize) -> Result<AssignedInteger<N>, Error>;
     fn range_assign_integer(
         &self,
         region: &mut Region<'_, N>,
