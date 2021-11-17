@@ -61,7 +61,7 @@ pub struct EccChip<E: CurveAffine, C: CurveAffine> {
 }
 
 pub trait EccInstruction<E: CurveAffine, C: CurveAffine> {
-    fn assign_point(&self, region: &mut Region<'_, C::ScalarExt>, point: Point<C>, offset: &mut usize) -> Result<AssignedPoint<C>, Error>;
+    fn assign_point(&self, region: &mut Region<'_, C::ScalarExt>, point: Option<Point<C>>, offset: &mut usize) -> Result<AssignedPoint<C>, Error>;
     fn assert_is_on_curve(&self, region: &mut Region<'_, C::ScalarExt>, point: AssignedPoint<C>, offset: &mut usize) -> Result<(), Error>;
     fn assert_equal(
         &self,
@@ -85,7 +85,7 @@ pub trait EccInstruction<E: CurveAffine, C: CurveAffine> {
 }
 
 impl<E: CurveAffine, C: CurveAffine> EccInstruction<E, C> for EccChip<E, C> {
-    fn assign_point(&self, region: &mut Region<'_, C::ScalarExt>, point: Point<C>, offset: &mut usize) -> Result<AssignedPoint<C>, Error> {
+    fn assign_point(&self, region: &mut Region<'_, C::ScalarExt>, point: Option<Point<C>>, offset: &mut usize) -> Result<AssignedPoint<C>, Error> {
         unimplemented!();
     }
 
